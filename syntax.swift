@@ -69,6 +69,14 @@ enum LangValue {
 }
 
 extension Exp {
+    func execute() {
+        if let _ = self.typecheck([:]) {
+            print("\(self): \(self.evaluate([:]))");
+        } else {
+            print("FAILED TO TYPECHECK: \(self)");
+        }
+    }
+    
     // Variable -> Type
     // String -> Type
     func typecheck(_ env: [String: LangType]) -> LangType? {
@@ -191,3 +199,6 @@ let illTypedExample = Exp.LetExp(
 // 2.) Evaluator of this language
 // 3.) Fuzzer for this language (automatically generate ASTs)
 
+while true {
+    generateExp().execute();
+}
