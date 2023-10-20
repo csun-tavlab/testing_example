@@ -11,6 +11,20 @@ enum Op {
     case LessThanOp
 }
 
+// intVariable ::= `i0` | `i1`
+// boolVariable ::= `b0` | `b1`
+// intExp ::= INTEGER | intExp + intExp | if boolExp intExp intExp |
+//            let intVariable : int = intExp in intExp |
+//            let boolVariable : bool = boolExp in intExp |
+//            intVariable
+// boolExp ::= `true` | `false` | boolExp && boolExp |
+//             intExp < intExp |
+//             if boolExp boolExp boolExp |
+//             let intVariable : int = intExp in boolExp |
+//             let boolVariable : bool = boolExp in boolExp |
+//             boolVariable
+// exp ::= intExp | boolExp
+
 // exp ::= INTEGER | VARIABLE |
 //         `true` | `false` |
 //         exp op exp |
