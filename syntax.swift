@@ -16,6 +16,7 @@ enum Op {
 //         exp op exp |
 //         `if` exp exp exp |
 //         `let` VARIABLE `:` type `=` exp `in` exp
+
 indirect enum Exp {
     case IntegerExp(Int)
     case VariableExp(String)
@@ -24,6 +25,42 @@ indirect enum Exp {
     case BinopExp(Exp, Op, Exp)
     case IfExp(Exp, Exp, Exp)
     case LetExp(String, LangType, Exp, Exp)
+}
+
+func generateVarName() -> String {
+    if Int.random(in: 0..<2) == 0 {
+        return "x"
+    } else {
+        return "y"
+    }
+}
+
+func generateOp() -> Op {
+    switch Int.random(in: 0..<3) {
+    case 0: return Op.PlusOp
+    case 1: return Op.AndOp
+    case _: return Op.LessThanOp
+    }
+}
+
+func generateType() -> LangType {
+    if Int.random(in: 0..<2) == 0 {
+        return LangType.IntType
+    } else {
+        return LangType.BoolType
+    }
+}
+
+func generateExp() -> Exp {
+    switch Int.random(in: 0..<7) {
+    case 0: return Exp.IntegerExp(Int.random(in: 0..<100))
+    case 1: return Exp.VariableExp(generateVarName())
+    case 2: return Exp.TrueExp
+    case 3: return Exp.FalseExp
+    case 4: return Exp.BinopExp(generateExp(), generateOp(), generateExp())
+    case 5: return Exp.IfExp(generateExp(), generateExp(), generateExp())
+    case _: return Exp.LetExp(generateVarName(), generateType(), generateExp(), generateExp())
+    }
 }
 
 enum LangValue {
