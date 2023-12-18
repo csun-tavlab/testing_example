@@ -144,8 +144,14 @@ def random_variable_name():
 
 # exp ::= VARIABLE | INTEGER | `true` | `false` |
 #         exp op exp
-def random_exp():
-    num = random.randint(0, 4)
+def random_exp(bound):
+    if bound <= 0:
+        # only allow base cases
+        num = random.randint(0, 3)
+    else:
+        bound = bound - 1
+        num = random.randint(0, 4)
+        
     if num == 0:
         return VariableExp(random_variable_name())
     elif num == 1:
@@ -155,20 +161,20 @@ def random_exp():
     elif num == 3:
         return FalseExp()
     else:
-        return BinopExp(random_exp(),
+        return BinopExp(random_exp(bound),
                         random_op(),
-                        random_exp())
+                        random_exp(bound))
 
 # stmt ::= type VARIABLE `=` exp `;`
-def random_stmt():
+def random_stmt(bound):
     return VardecStmt(random_type(),
                       random_variable_name(),
-                      random_exp())
+                      random_exp(bound))
 
 # program ::= stmt*
-def random_program():
+def random_program(bound):
     num_stmts = random.randint(0, 10)
-    return Program([random_stmt()
+    return Program([random_stmt(bound)
                     for _ in range(0, num_stmts + 1)])
 
 # int x = 7;
@@ -185,4 +191,5 @@ def random_program():
 #                                        IntegerExp(10)))])
 # print(str(program))
 
-print(str(random_program()))
+# max depth of any expression: 2
+print(str(random_program(2)))
